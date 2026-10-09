@@ -1,0 +1,2206 @@
+{
+  "backupDate": "2026-10-09T22:22:41.500Z",
+  "company": "FUTURE FOOD SAS",
+  "suppliers": [
+    {
+      "id": "PROV-001",
+      "name": "RAFFO CARLOS DAVID",
+      "cuit": "20-11076745-6",
+      "address": "SAN MARTIN 7032",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "PROV-002",
+      "name": "RAFFO C. DAVID-HIJO",
+      "cuit": "20-37837493-7",
+      "address": "JOSE L. SUAREZ 1674",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "PROV-003",
+      "name": "ARDION SA",
+      "cuit": "33-71710141-9",
+      "address": "GORRITI 686",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "PROV-004",
+      "name": "CANO JUAN PABLO",
+      "cuit": "20-27402100-5",
+      "address": "ALSINA 3400",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "PROV-005",
+      "name": "DISTRIBUIDORA QUINTELA",
+      "cuit": "20-22493041-1",
+      "address": "GUAMINI 2155",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "PROV-006",
+      "name": "EXPRESION GRAFICA SRL",
+      "cuit": "30-68033705-1",
+      "address": "CNEL. PRINGLES 1751",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "PROV-007",
+      "name": "GELFIX SA",
+      "cuit": "30-53871411-5",
+      "address": "ARAOZ DED LA MADRID 1851",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "PROV-008",
+      "name": "GIORCELLI OMAR ALEJANDRO",
+      "cuit": "20-18555022-3",
+      "address": "CAMPO DE MAYO 5861",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "PROV-009",
+      "name": "GOLDEN HARVEST",
+      "cuit": "30-70862819-7",
+      "address": "RODRIGUEZ PEÑA 3260",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "PROV-010",
+      "name": "ID GROUP SA",
+      "cuit": "30-70805310-0",
+      "address": "SUAREZ 2778",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "PROV-011",
+      "name": "LA COYUNDA SAS",
+      "cuit": "33-71813169-9",
+      "address": "SALTA SUR 338",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "PROV-012",
+      "name": "MULTIEMBAL S.A.",
+      "cuit": "30-70951352-0",
+      "address": "SUPERI 1036/56",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "PROV-013",
+      "name": "PALLET SAN ANDRES SA",
+      "cuit": "30-71067544-5",
+      "address": "PALMAR 644",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "PROV-014",
+      "name": "PAPELERA RAUL JUAN CORA SA",
+      "cuit": "30-58891715-7",
+      "address": "LARRAZABAL 1224/32",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "PROV-015",
+      "name": "PAPER SRL",
+      "cuit": "30-68223838-7",
+      "address": "BERNARDINO LOPEZ 179",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "PROV-016",
+      "name": "PEKKO ARG. SRL",
+      "cuit": "30-71591688-2",
+      "address": "CASTILLO 145",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    }
+  ],
+  "clients": [
+    {
+      "id": "CLI-001",
+      "name": "INC S.A.",
+      "cuit": "30-68731043-4",
+      "address": "Jose Arias 365",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "CLI-002",
+      "name": "LAGOMARSINO S.A.",
+      "cuit": "30-54171633-1",
+      "address": "Jose Arias 365",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "CLI-003",
+      "name": "ROJAS SIN TACC SAS",
+      "cuit": "30-71576929-4",
+      "address": "Jose Arias 365",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "CLI-004",
+      "name": "CENCOSUD S.A.",
+      "cuit": "30-59036076-3",
+      "address": "Jose Arias 365",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "CLI-005",
+      "name": "BEST COFFEE S.A.",
+      "cuit": "30-71130417-3",
+      "address": "Jose Arias 365",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "CLI-006",
+      "name": "THE WHY FACTORY SA",
+      "cuit": "30-71237097-8",
+      "address": "Jose Arias 365",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    {
+      "id": "CLI-007",
+      "name": "STARBUCKS COFFE ARG. S.R.L.",
+      "cuit": "30-71004052-0",
+      "address": "Jose Arias 365",
+      "contactName": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    }
+  ],
+  "rawMaterials": [
+    {
+      "id": "MP-001",
+      "code": "MP-001",
+      "name": "Precisa Bake",
+      "unit": "Kg",
+      "costPrice": "7100",
+      "supplierId": "PROV-003",
+      "currentStock": "0",
+      "minStock": "10",
+      "category": "Secos"
+    },
+    {
+      "id": "MP-002",
+      "code": "MP-002",
+      "name": "Sal",
+      "unit": "Kg",
+      "costPrice": 2870,
+      "supplierId": "PROV-005",
+      "currentStock": 0,
+      "minStock": 0,
+      "category": "Secos"
+    },
+    {
+      "id": "MP-003",
+      "code": "MP-003",
+      "name": "Aceite",
+      "unit": "Litros",
+      "costPrice": 3540,
+      "supplierId": "PROV-005",
+      "currentStock": 1000,
+      "minStock": 0,
+      "category": "Secos"
+    },
+    {
+      "id": "MP-004",
+      "code": "MP-004",
+      "name": "Levadura fresca",
+      "unit": "Kg",
+      "costPrice": 10000,
+      "supplierId": "PROV-005",
+      "currentStock": 1000,
+      "minStock": 0,
+      "category": "Frescos"
+    },
+    {
+      "id": "MP-005",
+      "code": "MP-005",
+      "name": "Azúcar",
+      "unit": "Kg",
+      "costPrice": 1440,
+      "supplierId": "PROV-005",
+      "currentStock": 1000,
+      "minStock": 0,
+      "category": "Secos"
+    },
+    {
+      "id": "MP-006",
+      "code": "MP-006",
+      "name": "Salsa ",
+      "unit": "Litros",
+      "costPrice": 2465,
+      "supplierId": "PROV-004",
+      "currentStock": 1000,
+      "minStock": 0,
+      "category": "Secos"
+    },
+    {
+      "id": "MP-007",
+      "code": "MP-007",
+      "name": "Muzzarella",
+      "unit": "Kg",
+      "costPrice": 9700,
+      "supplierId": "PROV-001",
+      "currentStock": 1000,
+      "minStock": 0,
+      "category": "Frescos"
+    },
+    {
+      "id": "MP-008",
+      "code": "MP-008",
+      "name": "Queso barra",
+      "unit": "Kg",
+      "costPrice": 9240,
+      "supplierId": "PROV-001",
+      "currentStock": 1000,
+      "minStock": 0,
+      "category": "Frescos"
+    },
+    {
+      "id": "MP-009",
+      "code": "MP-009",
+      "name": "Queso chedar",
+      "unit": "Kg",
+      "costPrice": 12000,
+      "supplierId": "PROV-001",
+      "currentStock": 0,
+      "minStock": 0,
+      "category": "Frescos"
+    },
+    {
+      "id": "MP-010",
+      "code": "MP-010",
+      "name": "Jamón cocido",
+      "unit": "Kg",
+      "costPrice": 10000,
+      "supplierId": "PROV-001",
+      "currentStock": 1000,
+      "minStock": 0,
+      "category": "Frescos"
+    },
+    {
+      "id": "MP-011",
+      "code": "MP-011",
+      "name": "Paleta Cocida",
+      "unit": "Kg",
+      "costPrice": 6800,
+      "supplierId": "PROV-001",
+      "currentStock": 1000,
+      "minStock": 0,
+      "category": "Frescos"
+    },
+    {
+      "id": "MP-012",
+      "code": "MP-012",
+      "name": "Jamón crudo",
+      "unit": "Kg",
+      "costPrice": 20000,
+      "supplierId": "PROV-001",
+      "currentStock": 1000,
+      "minStock": 0,
+      "category": "Frescos"
+    },
+    {
+      "id": "MP-013",
+      "code": "MP-013",
+      "name": "Pastron",
+      "unit": "Kg",
+      "costPrice": 23000,
+      "supplierId": "PROV-001",
+      "currentStock": 0,
+      "minStock": 0,
+      "category": "Frescos"
+    },
+    {
+      "id": "MP-014",
+      "code": "MP-014",
+      "name": "Lomo",
+      "unit": "Kg",
+      "costPrice": 16500,
+      "supplierId": "PROV-001",
+      "currentStock": 0,
+      "minStock": 0,
+      "category": "Frescos"
+    },
+    {
+      "id": "MP-015",
+      "code": "MP-015",
+      "name": "Peperoni",
+      "unit": "Kg",
+      "costPrice": 38701,
+      "supplierId": "PROV-001",
+      "currentStock": 1000,
+      "minStock": 0,
+      "category": "Frescos"
+    },
+    {
+      "id": "MP-016",
+      "code": "MP-016",
+      "name": "Rebozador",
+      "unit": "Kg",
+      "costPrice": 3700,
+      "supplierId": "PROV-001",
+      "currentStock": 0,
+      "minStock": 0,
+      "category": "Secos"
+    },
+    {
+      "id": "MP-017",
+      "code": "MP-017",
+      "name": "Batter",
+      "unit": "Kg",
+      "costPrice": "7200",
+      "supplierId": "PROV-001",
+      "currentStock": "0",
+      "minStock": "10",
+      "category": "Secos"
+    },
+    {
+      "id": "MP-018",
+      "code": "MP-018",
+      "name": "Colageno",
+      "unit": "Kg",
+      "costPrice": 6480,
+      "supplierId": "PROV-002",
+      "currentStock": 0,
+      "minStock": 0,
+      "category": "Secos"
+    },
+    {
+      "id": "MP-019",
+      "code": "MP-019",
+      "name": "Texturizado de soja",
+      "unit": "Kg",
+      "costPrice": 7000,
+      "supplierId": "PROV-002",
+      "currentStock": 0,
+      "minStock": 0,
+      "category": "Secos"
+    },
+    {
+      "id": "MP-020",
+      "code": "MP-020",
+      "name": "Pechuga de pollo",
+      "unit": "Kg",
+      "costPrice": 6000,
+      "supplierId": "PROV-001",
+      "currentStock": 0,
+      "minStock": 0,
+      "category": "Frescos"
+    },
+    {
+      "id": "MP-021",
+      "code": "MP-021",
+      "name": "MDM de pollo",
+      "unit": "Kg",
+      "costPrice": 6000,
+      "supplierId": "PROV-001",
+      "currentStock": 0,
+      "minStock": 0,
+      "category": "Frescos"
+    },
+    {
+      "id": "MP-022",
+      "code": "MP-022",
+      "name": "Bolsa PP 25x35",
+      "unit": "Unidad",
+      "costPrice": 17.3,
+      "supplierId": "PROV-014",
+      "currentStock": "0",
+      "minStock": "0",
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-023",
+      "code": "MP-023",
+      "name": "Bolsa PP 12x25",
+      "unit": "Unidad",
+      "costPrice": 4,
+      "supplierId": "PROV-014",
+      "currentStock": "0",
+      "minStock": "0",
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-024",
+      "code": "MP-024",
+      "name": "Flow pack para pizzas",
+      "unit": "Unidad",
+      "costPrice": 20,
+      "supplierId": "PROV-006",
+      "currentStock": 5000,
+      "minStock": 0,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-025",
+      "code": "MP-025",
+      "name": "Flow pack para sanwiches",
+      "unit": "Unidad",
+      "costPrice": 159.5,
+      "supplierId": "PROV-006",
+      "currentStock": 10000,
+      "minStock": 0,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-026",
+      "code": "MP-026",
+      "name": "Flow pack para sanwiches",
+      "unit": "Unidad",
+      "costPrice": 360,
+      "supplierId": "PROV-006",
+      "currentStock": 5000,
+      "minStock": 0,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-027",
+      "code": "MP-027",
+      "name": "Estuche Muzza",
+      "unit": "Unidad",
+      "costPrice": 360,
+      "supplierId": "PROV-006",
+      "currentStock": 5000,
+      "minStock": 0,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-028",
+      "code": "MP-028",
+      "name": "Estuche Jamon",
+      "unit": "Unidad",
+      "costPrice": 360,
+      "supplierId": "PROV-006",
+      "currentStock": 5000,
+      "minStock": 10,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-029",
+      "code": "MP-029",
+      "name": "Estuche peperoni",
+      "unit": "Unidad",
+      "costPrice": 360,
+      "supplierId": "PROV-006",
+      "currentStock": 5000,
+      "minStock": 0,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-030",
+      "code": "MP-030",
+      "name": "Estuche vegana",
+      "unit": "Unidad",
+      "costPrice": 360,
+      "supplierId": "PROV-006",
+      "currentStock": 5000,
+      "minStock": 0,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-031",
+      "code": "MP-031",
+      "name": "Flow pack prepizza carrefour",
+      "unit": "Unidad",
+      "costPrice": 217.5,
+      "supplierId": "PROV-011",
+      "currentStock": 5000,
+      "minStock": 0,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-032",
+      "code": "MP-032",
+      "name": "Flow muzza carrefour",
+      "unit": "Unidad",
+      "costPrice": 217.5,
+      "supplierId": "PROV-011",
+      "currentStock": 5000,
+      "minStock": 0,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-033",
+      "code": "MP-033",
+      "name": "Flow JyQ carrefour",
+      "unit": "Unidad",
+      "costPrice": 217.5,
+      "supplierId": "PROV-011",
+      "currentStock": 5000,
+      "minStock": 0,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-034",
+      "code": "MP-034",
+      "name": "Flow pack para sanwiches carrefour",
+      "unit": "Unidad",
+      "costPrice": 412,
+      "supplierId": "PROV-011",
+      "currentStock": 5000,
+      "minStock": 0,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-035",
+      "code": "MP-035",
+      "name": "Flow keila nuggets",
+      "unit": "Unidad",
+      "costPrice": 412,
+      "supplierId": "PROV-011",
+      "currentStock": 0,
+      "minStock": 10,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-036",
+      "code": "MP-036",
+      "name": "Flow keila nuggets",
+      "unit": "Unidad",
+      "costPrice": 412,
+      "supplierId": "PROV-011",
+      "currentStock": 0,
+      "minStock": 10,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-037",
+      "code": "MP-037",
+      "name": "Caja master para pizza x 10 unidades",
+      "unit": "Unidad",
+      "costPrice": 630,
+      "supplierId": "PROV-008",
+      "currentStock": 10000,
+      "minStock": 10,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-038",
+      "code": "MP-038",
+      "name": "Caja para sandwich x 30 unidades",
+      "unit": "Unidad",
+      "costPrice": 630,
+      "supplierId": "PROV-008",
+      "currentStock": 10000,
+      "minStock": 10,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-039",
+      "code": "MP-039",
+      "name": "Caja para sandwich  x 18 unidades",
+      "unit": "Unidad",
+      "costPrice": 630,
+      "supplierId": "PROV-008",
+      "currentStock": 10000,
+      "minStock": 10,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-040",
+      "code": "MP-040",
+      "name": "separador 20x25",
+      "unit": "Unidad",
+      "costPrice": 20,
+      "supplierId": "PROV-014",
+      "currentStock": 1000,
+      "minStock": 10,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-041",
+      "code": "MP-041",
+      "name": "Papel parafinado 30x40",
+      "unit": "Unidad",
+      "costPrice": 36,
+      "supplierId": "PROV-015",
+      "currentStock": 1000,
+      "minStock": 10,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-042",
+      "code": "MP-042",
+      "name": "papel parafinado 70x50",
+      "unit": "Unidad",
+      "costPrice": 36,
+      "supplierId": "PROV-015",
+      "currentStock": 1000,
+      "minStock": 10,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-043",
+      "code": "MP-043",
+      "name": "Etiqueta  10 x 10",
+      "unit": "Unidad",
+      "costPrice": 24,
+      "supplierId": "PROV-010",
+      "currentStock": 10000,
+      "minStock": 10,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-044",
+      "code": "MP-044",
+      "name": "Sobres anti graso 2L",
+      "unit": "Kg",
+      "costPrice": 43,
+      "supplierId": "PROV-014",
+      "currentStock": 10000,
+      "minStock": 10,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-045",
+      "code": "MP-045",
+      "name": "Fajas Starbucks",
+      "unit": "Kg",
+      "costPrice": 87,
+      "supplierId": "PROV-006",
+      "currentStock": 5000,
+      "minStock": 10,
+      "category": "Empaquera"
+    },
+    {
+      "id": "MP-046",
+      "code": "MP-046",
+      "name": "Cinta embalar y cinta papel",
+      "unit": "Unidad",
+      "costPrice": 30,
+      "supplierId": "PROV-014",
+      "currentStock": 10000,
+      "minStock": 10,
+      "category": "Empaque"
+    },
+    {
+      "id": "MP-047",
+      "code": "MP-047",
+      "name": "Suero de queso",
+      "unit": "Kg",
+      "costPrice": 4750,
+      "supplierId": "PROV-002",
+      "currentStock": 1000,
+      "minStock": 0,
+      "category": "Secos"
+    }
+  ],
+  "products": [
+    {
+      "id": "PT-001",
+      "code": "PT-001",
+      "name": "Prepizza Keila",
+      "category": "Pizzas",
+      "salePrice": 6200,
+      "currentStock": "0",
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.16"
+        },
+        {
+          "supplierId": "PROV-004",
+          "rawMaterialId": "MP-006",
+          "quantity": "0.16"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.002"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0025"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.019"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.02"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-024",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-040",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-037",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": "1"
+        },
+        {
+          "supplierId": "PROV-002",
+          "rawMaterialId": "MP-047",
+          "quantity": "0.02"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-027",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "PT-002",
+      "code": "PT-002",
+      "name": "Prepizza Cristal",
+      "category": "Pizzas",
+      "salePrice": 6200,
+      "currentStock": 0,
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.16"
+        },
+        {
+          "supplierId": "PROV-004",
+          "rawMaterialId": "MP-006",
+          "quantity": "0.16"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.002"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0025"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.019"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.02"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-024",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-040",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-037",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": "1"
+        },
+        {
+          "supplierId": "PROV-002",
+          "rawMaterialId": "MP-047",
+          "quantity": "0.02"
+        }
+      ]
+    },
+    {
+      "id": "PT-003",
+      "code": "PT-003",
+      "name": "Pizza Muzza Keila ",
+      "category": "Pizzas",
+      "salePrice": 7100,
+      "currentStock": 0,
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.08"
+        },
+        {
+          "supplierId": "PROV-004",
+          "rawMaterialId": "MP-006",
+          "quantity": "0.08"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.001"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0012"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-024",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-040",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-037",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": "1"
+        },
+        {
+          "supplierId": "PROV-002",
+          "rawMaterialId": "MP-047",
+          "quantity": "0.02"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-027",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-007",
+          "quantity": "0.1"
+        }
+      ]
+    },
+    {
+      "id": "PT-004",
+      "code": "PT-004",
+      "name": "Pizza Muzza Cristal",
+      "category": "Pizzas",
+      "salePrice": 7100,
+      "currentStock": 0,
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.08"
+        },
+        {
+          "supplierId": "PROV-004",
+          "rawMaterialId": "MP-006",
+          "quantity": "0.08"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.001"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0012"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-024",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-040",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-037",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": "1"
+        },
+        {
+          "supplierId": "PROV-002",
+          "rawMaterialId": "MP-047",
+          "quantity": "0.02"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-007",
+          "quantity": "0.1"
+        }
+      ]
+    },
+    {
+      "id": "PT-005",
+      "code": "PT-005",
+      "name": "Pizza Jamón Keila  ",
+      "category": "Pizzas",
+      "salePrice": 7800,
+      "currentStock": 0,
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.08"
+        },
+        {
+          "supplierId": "PROV-004",
+          "rawMaterialId": "MP-006",
+          "quantity": "0.08"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.001"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0012"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-024",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-040",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-037",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": "1"
+        },
+        {
+          "supplierId": "PROV-002",
+          "rawMaterialId": "MP-047",
+          "quantity": "0.02"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-028",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-007",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-011",
+          "quantity": "0.05"
+        }
+      ]
+    },
+    {
+      "id": "PT-006",
+      "code": "PT-006",
+      "name": "Pizza Jamón Cristal",
+      "category": "Pizzas",
+      "salePrice": 7800,
+      "currentStock": 0,
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.08"
+        },
+        {
+          "supplierId": "PROV-004",
+          "rawMaterialId": "MP-006",
+          "quantity": "0.08"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.001"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0012"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-024",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-040",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-037",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": "1"
+        },
+        {
+          "supplierId": "PROV-002",
+          "rawMaterialId": "MP-047",
+          "quantity": "0.02"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-007",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-011",
+          "quantity": "0.05"
+        }
+      ]
+    },
+    {
+      "id": "PT-007",
+      "code": "PT-007",
+      "name": "Pizza Peperoni Keila ",
+      "category": "Pizzas",
+      "salePrice": 8100,
+      "currentStock": 0,
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.08"
+        },
+        {
+          "supplierId": "PROV-004",
+          "rawMaterialId": "MP-006",
+          "quantity": "0.08"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.001"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0012"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-024",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-040",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-037",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": "1"
+        },
+        {
+          "supplierId": "PROV-002",
+          "rawMaterialId": "MP-047",
+          "quantity": "0.02"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-029",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-007",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-015",
+          "quantity": "0.05"
+        }
+      ]
+    },
+    {
+      "id": "PT-008",
+      "code": "PT-008",
+      "name": "Pizza Peperoni Cristal",
+      "category": "Pizzas",
+      "salePrice": 8100,
+      "currentStock": 0,
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.08"
+        },
+        {
+          "supplierId": "PROV-004",
+          "rawMaterialId": "MP-006",
+          "quantity": "0.08"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.001"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0012"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-024",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-040",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-037",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": "1"
+        },
+        {
+          "supplierId": "PROV-002",
+          "rawMaterialId": "MP-047",
+          "quantity": "0.02"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-007",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-015",
+          "quantity": "0.05"
+        }
+      ]
+    },
+    {
+      "id": "PT-009",
+      "code": "PT-009",
+      "name": "Pizza Vegana Keila  ",
+      "category": "Pizzas",
+      "salePrice": 6500,
+      "currentStock": 0,
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.09"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.001"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0012"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-024",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-040",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-037",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": "1"
+        },
+        {
+          "supplierId": "PROV-002",
+          "rawMaterialId": "MP-047",
+          "quantity": "0.02"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-030",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "PT-010",
+      "code": "PT-010",
+      "name": "Pizza Vegana Cristal",
+      "category": "Pizzas",
+      "salePrice": 6500,
+      "currentStock": 0,
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.09"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.001"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0012"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-024",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-040",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-037",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": "1"
+        },
+        {
+          "supplierId": "PROV-002",
+          "rawMaterialId": "MP-047",
+          "quantity": "0.02"
+        }
+      ]
+    },
+    {
+      "id": "PT-011",
+      "code": "PT-011",
+      "name": "Prepizza Carrefour",
+      "category": "Pizzas",
+      "salePrice": 4682,
+      "currentStock": 0,
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.16"
+        },
+        {
+          "supplierId": "PROV-004",
+          "rawMaterialId": "MP-006",
+          "quantity": "0.16"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.002"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0025"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.019"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.02"
+        },
+        {
+          "supplierId": "PROV-011",
+          "rawMaterialId": "MP-031",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-040",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-037",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": "1"
+        },
+        {
+          "supplierId": "PROV-002",
+          "rawMaterialId": "MP-047",
+          "quantity": "0.02"
+        }
+      ]
+    },
+    {
+      "id": "PT-012",
+      "code": "PT-012",
+      "name": "Pizza Muzza Carrefour",
+      "category": "Pizzas",
+      "salePrice": 5267,
+      "currentStock": 0,
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.08"
+        },
+        {
+          "supplierId": "PROV-004",
+          "rawMaterialId": "MP-006",
+          "quantity": "0.08"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.001"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0012"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-011",
+          "rawMaterialId": "MP-032",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-040",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-037",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": "1"
+        },
+        {
+          "supplierId": "PROV-002",
+          "rawMaterialId": "MP-047",
+          "quantity": "0.02"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-007",
+          "quantity": "0.1"
+        }
+      ]
+    },
+    {
+      "id": "PT-013",
+      "code": "PT-013",
+      "name": "Pizza Jamón Carrefour",
+      "category": "Pizzas",
+      "salePrice": 5635,
+      "currentStock": 0,
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.08"
+        },
+        {
+          "supplierId": "PROV-004",
+          "rawMaterialId": "MP-006",
+          "quantity": "0.08"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.001"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0012"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-011",
+          "rawMaterialId": "MP-033",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-040",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-037",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": "1"
+        },
+        {
+          "supplierId": "PROV-002",
+          "rawMaterialId": "MP-047",
+          "quantity": "0.02"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-007",
+          "quantity": "0.1"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-011",
+          "quantity": "0.05"
+        }
+      ]
+    },
+    {
+      "id": "PT-014",
+      "code": "PT-014",
+      "name": "Sandwich Jamón y Queso Keila",
+      "category": "Sandwich",
+      "salePrice": 5000,
+      "currentStock": 0,
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.09"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.002"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0028"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-008",
+          "quantity": "0.05"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-010",
+          "quantity": "0.05"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-025",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-038",
+          "quantity": "0.03"
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "1.03"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "PT-015",
+      "code": "PT-015",
+      "name": "Sandwich Jamón y Queso Cristal",
+      "category": "Sandwich",
+      "salePrice": 5000,
+      "currentStock": 0,
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.09"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.002"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0028"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-008",
+          "quantity": "0.05"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-010",
+          "quantity": "0.05"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-025",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-038",
+          "quantity": "0.03"
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "0.03"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "PT-016",
+      "code": "PT-016",
+      "name": "Sandwich Jamón y Queso Carrefour",
+      "category": "Sandwich",
+      "salePrice": 4277,
+      "currentStock": "0",
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.09"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.002"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0028"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-008",
+          "quantity": "0.05"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-010",
+          "quantity": "0.05"
+        },
+        {
+          "supplierId": "PROV-011",
+          "rawMaterialId": "MP-033",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-039",
+          "quantity": "0.018"
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "1.03"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "PT-017",
+      "code": "PT-017",
+      "name": "Sandwich Jamón y Queso Sturbucks",
+      "category": "Sandwich",
+      "salePrice": 5000,
+      "currentStock": "0",
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.09"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.002"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0028"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-008",
+          "quantity": "0.05"
+        },
+        {
+          "supplierId": "PROV-001",
+          "rawMaterialId": "MP-010",
+          "quantity": "0.05"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-025",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-008",
+          "rawMaterialId": "MP-038",
+          "quantity": "0.03"
+        },
+        {
+          "supplierId": "PROV-015",
+          "rawMaterialId": "MP-041",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-010",
+          "rawMaterialId": "MP-043",
+          "quantity": "1.03"
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-044",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-045",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "PT-018",
+      "code": "PT-018",
+      "name": "Pan Ciabata Cristal",
+      "category": "Panes",
+      "salePrice": 2000,
+      "currentStock": 0,
+      "minStock": 10,
+      "description": "",
+      "bom": [
+        {
+          "supplierId": "PROV-003",
+          "rawMaterialId": "MP-001",
+          "quantity": "0.09"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-002",
+          "quantity": "0.002"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-005",
+          "quantity": "0.0028"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-004",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-005",
+          "rawMaterialId": "MP-003",
+          "quantity": "0.01"
+        },
+        {
+          "supplierId": "PROV-006",
+          "rawMaterialId": "MP-025",
+          "quantity": 1
+        },
+        {
+          "supplierId": "PROV-014",
+          "rawMaterialId": "MP-046",
+          "quantity": 1
+        }
+      ]
+    }
+  ],
+  "transactions": [
+    {
+      "id": "TRX-1791577669102",
+      "code": "AJU-9102",
+      "type": "AJUSTE",
+      "date": "2026-10-09T20:27:49.102Z",
+      "entityName": "Auditoria Interna",
+      "items": [
+        {
+          "id": "MP-047",
+          "name": "Suero de queso",
+          "quantity": 1000,
+          "unit": "Kg",
+          "unitPrice": 4750,
+          "subtotal": 4750000
+        }
+      ],
+      "totalAmount": 4750000,
+      "notes": "Ajuste inventario fisico MP: Recuento fisico de inventario"
+    }
+  ]
+}
