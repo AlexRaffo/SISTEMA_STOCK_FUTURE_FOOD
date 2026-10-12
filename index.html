@@ -52,6 +52,11 @@
     }
   </script>
 
+  <!-- Firebase App, Auth & Cloud Firestore (Compat SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+
   <!-- React 18 & ReactDOM 18 -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -240,6 +245,26 @@
     const AUTH_STORAGE_KEY = 'ff_sas_auth_token';
 
     // -----------------------------
+    // FIREBASE REALTIME CLOUD CONFIGURATION
+    // -----------------------------
+    const DEFAULT_FIREBASE_CONFIG = {
+      apiKey: "",
+      authDomain: "",
+      projectId: "",
+      storageBucket: "",
+      messagingSenderId: "",
+      appId: ""
+    };
+    const FIREBASE_CONFIG_STORAGE_KEY = 'ff_sas_firebase_config';
+    const FIREBASE_COLLECTIONS = {
+      SUPPLIERS: 'future_food_suppliers',
+      CLIENTS: 'future_food_clients',
+      RAW_MATERIALS: 'future_food_raw_materials',
+      PRODUCTS: 'future_food_products',
+      TRANSACTIONS: 'future_food_transactions'
+    };
+
+    // -----------------------------
     // MAIN APP COMPONENT
     // -----------------------------
     function FutureFoodStockApp() {
@@ -293,6 +318,245 @@
 
       // Print voucher / Invoice modal state
       const [printDoc, setPrintDoc] = useState(null);
+
+      // Firebase Cloud State
+      const [firebaseConfig, setFirebaseConfig] = useState(() => {
+        try {
+          const saved = localStorage.getItem(FIREBASE_CONFIG_STORAGE_KEY);
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (parsed && parsed.projectId) return parsed;
+          }
+        } catch (e) {}
+        return (DEFAULT_FIREBASE_CONFIG && DEFAULT_FIREBASE_CONFIG.projectId) ? DEFAULT_FIREBASE_CONFIG : null;
+      });
+
+      const [firebaseStatus, setFirebaseStatus] = useState('disconnected'); // 'disconnected' | 'connecting' | 'connected' | 'error'
+      const [firebaseError, setFirebaseError] = useState(null);
+      const [isSyncingCloud, setIsSyncingCloud] = useState(false);
+      const dbRef = useRef(null);
+
+      // Firestore Real-time Listeners
+      useEffect(() => {
+        if (!firebaseConfig || !firebaseConfig.projectId || !firebaseConfig.apiKey) {
+          setFirebaseStatus('disconnected');
+          dbRef.current = null;
+          return;
+        }
+
+        if (typeof firebase === 'undefined' || !firebase.firestore) {
+          setFirebaseStatus('error');
+          setFirebaseError('Libreria Firebase SDK no cargada.');
+          return;
+        }
+
+        let isMounted = true;
+        setFirebaseStatus('connecting');
+        setFirebaseError(null);
+        let unsubs = [];
+
+        try {
+          let app;
+          if (!firebase.apps || firebase.apps.length === 0) {
+            app = firebase.initializeApp(firebaseConfig);
+          } else {
+            app = firebase.apps[0];
+          }
+          const db = app.firestore();
+          dbRef.current = db;
+
+          // Optional Anonymous Auth for secure Firebase Rules
+          if (typeof app.auth === 'function') {
+            try {
+              app.auth().signInAnonymously().catch(authErr => {
+                console.info('Aviso Auth Anonima (opcional):', authErr.message);
+              });
+            } catch (e) {}
+          }
+
+          // Attempt offline persistence
+          try {
+            db.enablePersistence({ synchronizeTabs: true }).catch(err => {
+              if (err.code !== 'failed-precondition' && err.code !== 'unimplemented') {
+                console.warn('Aviso de persistencia offline:', err.message);
+              }
+            });
+          } catch (e) {}
+
+          // 1. Proveedores en Tiempo Real
+          const unsubSuppliers = db.collection(FIREBASE_COLLECTIONS.SUPPLIERS).onSnapshot(
+            snapshot => {
+              if (!isMounted) return;
+              const list = [];
+              snapshot.forEach(doc => list.push(doc.data()));
+              if (list.length > 0 || !snapshot.empty || snapshot.metadata.hasPendingWrites) {
+                setSuppliers(list);
+              }
+              setFirebaseStatus('connected');
+            },
+            err => {
+              if (!isMounted) return;
+              console.error('Error escuchando proveedores:', err);
+              setFirebaseStatus('error');
+              setFirebaseError(err.message);
+            }
+          );
+          unsubs.push(unsubSuppliers);
+
+          // 2. Clientes en Tiempo Real
+          const unsubClients = db.collection(FIREBASE_COLLECTIONS.CLIENTS).onSnapshot(
+            snapshot => {
+              if (!isMounted) return;
+              const list = [];
+              snapshot.forEach(doc => list.push(doc.data()));
+              if (list.length > 0 || !snapshot.empty || snapshot.metadata.hasPendingWrites) {
+                setClients(list);
+              }
+            },
+            err => console.error('Error escuchando clientes:', err)
+          );
+          unsubs.push(unsubClients);
+
+          // 3. Materias Primas en Tiempo Real
+          const unsubRaw = db.collection(FIREBASE_COLLECTIONS.RAW_MATERIALS).onSnapshot(
+            snapshot => {
+              if (!isMounted) return;
+              const list = [];
+              snapshot.forEach(doc => list.push(doc.data()));
+              if (list.length > 0 || !snapshot.empty || snapshot.metadata.hasPendingWrites) {
+                setRawMaterials(list);
+              }
+            },
+            err => console.error('Error escuchando materias primas:', err)
+          );
+          unsubs.push(unsubRaw);
+
+          // 4. Mercaderias en Tiempo Real
+          const unsubProducts = db.collection(FIREBASE_COLLECTIONS.PRODUCTS).onSnapshot(
+            snapshot => {
+              if (!isMounted) return;
+              const list = [];
+              snapshot.forEach(doc => list.push(doc.data()));
+              if (list.length > 0 || !snapshot.empty || snapshot.metadata.hasPendingWrites) {
+                setProducts(list);
+              }
+            },
+            err => console.error('Error escuchando mercaderias:', err)
+          );
+          unsubs.push(unsubProducts);
+
+          // 5. Transacciones y Facturas en Tiempo Real
+          const unsubTransactions = db.collection(FIREBASE_COLLECTIONS.TRANSACTIONS).onSnapshot(
+            snapshot => {
+              if (!isMounted) return;
+              const list = [];
+              snapshot.forEach(doc => list.push(doc.data()));
+              if (list.length > 0 || !snapshot.empty || snapshot.metadata.hasPendingWrites) {
+                list.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+                setTransactions(list);
+              }
+            },
+            err => console.error('Error escuchando transacciones:', err)
+          );
+          unsubs.push(unsubTransactions);
+
+        } catch (err) {
+          console.error('Error inicializando Firebase:', err);
+          setFirebaseStatus('error');
+          setFirebaseError(err.message);
+        }
+
+        return () => {
+          isMounted = false;
+          unsubs.forEach(u => typeof u === 'function' && u());
+        };
+      }, [firebaseConfig]);
+
+      // Firestore Helper Methods
+      const firestoreSet = (col, docId, data) => {
+        if (!dbRef.current || firebaseStatus !== 'connected') return;
+        dbRef.current.collection(col).doc(docId).set(data).catch(err => {
+          console.error(`Error guardando en ${col}:`, err);
+        });
+      };
+
+      const firestoreDelete = (col, docId) => {
+        if (!dbRef.current || firebaseStatus !== 'connected') return;
+        dbRef.current.collection(col).doc(docId).delete().catch(err => {
+          console.error(`Error eliminando de ${col}:`, err);
+        });
+      };
+
+      // Full sync upload from local storage to Firestore (Migration)
+      const handleUploadLocalToFirebase = async () => {
+        if (!dbRef.current || firebaseStatus !== 'connected') {
+          showToast('Firebase no esta conectado aun.', 'error');
+          return;
+        }
+        setIsSyncingCloud(true);
+        try {
+          const db = dbRef.current;
+          let batch = db.batch();
+          let count = 0;
+
+          const commitBatchIfNeeded = async () => {
+            count++;
+            if (count % 400 === 0) {
+              await batch.commit();
+              batch = db.batch();
+            }
+          };
+
+          for (const s of suppliers) {
+            batch.set(db.collection(FIREBASE_COLLECTIONS.SUPPLIERS).doc(s.id), s);
+            await commitBatchIfNeeded();
+          }
+          for (const c of clients) {
+            batch.set(db.collection(FIREBASE_COLLECTIONS.CLIENTS).doc(c.id), c);
+            await commitBatchIfNeeded();
+          }
+          for (const rm of rawMaterials) {
+            batch.set(db.collection(FIREBASE_COLLECTIONS.RAW_MATERIALS).doc(rm.id), rm);
+            await commitBatchIfNeeded();
+          }
+          for (const p of products) {
+            batch.set(db.collection(FIREBASE_COLLECTIONS.PRODUCTS).doc(p.id), p);
+            await commitBatchIfNeeded();
+          }
+          for (const t of transactions) {
+            batch.set(db.collection(FIREBASE_COLLECTIONS.TRANSACTIONS).doc(t.id), t);
+            await commitBatchIfNeeded();
+          }
+
+          if (count % 400 !== 0 || count === 0) {
+            await batch.commit();
+          }
+          setIsSyncingCloud(false);
+          showToast('Todos los datos locales se han subido a la nube Firebase con exito.');
+        } catch (err) {
+          setIsSyncingCloud(false);
+          console.error('Error subiendo datos a Firebase:', err);
+          showToast('Error al subir datos a Firebase: ' + err.message, 'error');
+        }
+      };
+
+      const handleSaveFirebaseConfig = (newConfig) => {
+        if (!newConfig) {
+          localStorage.removeItem(FIREBASE_CONFIG_STORAGE_KEY);
+          setFirebaseConfig(null);
+          setFirebaseStatus('disconnected');
+          dbRef.current = null;
+          showToast('Desconectado de Firebase. Modo local activo.', 'info');
+          return;
+        }
+        try {
+          localStorage.setItem(FIREBASE_CONFIG_STORAGE_KEY, JSON.stringify(newConfig));
+          setFirebaseConfig(newConfig);
+          showToast('Configuracion de Firebase guardada. Conectando a la nube...');
+        } catch (e) {
+          showToast('Error al guardar configuracion: ' + e.message, 'error');
+        }
+      };
 
       // Sync to localStorage
       useEffect(() => {
@@ -439,6 +703,33 @@
         };
 
         setTransactions(prev => [newTransaction, ...prev]);
+
+        // Sincronizacion en tiempo real con Firebase Cloud
+        if (dbRef.current && firebaseStatus === 'connected') {
+          try {
+            const db = dbRef.current;
+            const batch = db.batch();
+            batch.set(db.collection(FIREBASE_COLLECTIONS.TRANSACTIONS).doc(newTransaction.id), newTransaction);
+            items.forEach(it => {
+              const rm = rawMaterials.find(r => r.id === it.rawMaterialId);
+              if (rm) {
+                const newStock = Number(rm.currentStock) + Number(it.quantity);
+                const newCost = updateCosts ? Number(it.unitPrice) : rm.costPrice;
+                const updatedRM = {
+                  ...rm,
+                  currentStock: newStock,
+                  costPrice: newCost,
+                  supplierId: supplierId || rm.supplierId
+                };
+                batch.set(db.collection(FIREBASE_COLLECTIONS.RAW_MATERIALS).doc(rm.id), updatedRM);
+              }
+            });
+            batch.commit().catch(err => console.error('Error sincronizando compra en Firebase:', err));
+          } catch (err) {
+            console.error('Error Firestore compra:', err);
+          }
+        }
+
         showToast('Compra ' + newCode + ' registrada correctamente.');
         setModalState({ isOpen: false, type: null, data: null });
         setPrintDoc(newTransaction);
@@ -585,6 +876,43 @@
         };
 
         setTransactions(prev => [newTransaction, ...prev]);
+
+        // Sincronizacion en tiempo real con Firebase Cloud
+        if (dbRef.current && firebaseStatus === 'connected') {
+          try {
+            const db = dbRef.current;
+            const batch = db.batch();
+            batch.set(db.collection(FIREBASE_COLLECTIONS.TRANSACTIONS).doc(newTransaction.id), newTransaction);
+
+            for (const rmId in totalMaterialsNeeded) {
+              const needed = totalMaterialsNeeded[rmId];
+              const rm = rawMaterials.find(r => r.id === rmId);
+              if (rm && needed.requiredQty > 0) {
+                const updatedRM = {
+                  ...rm,
+                  currentStock: Math.max(0, rm.currentStock - needed.requiredQty)
+                };
+                batch.set(db.collection(FIREBASE_COLLECTIONS.RAW_MATERIALS).doc(rm.id), updatedRM);
+              }
+            }
+
+            producedItems.forEach(it => {
+              const prod = products.find(p => p.id === it.productId);
+              if (prod) {
+                const updatedProd = {
+                  ...prod,
+                  currentStock: Number(prod.currentStock) + Number(it.quantity)
+                };
+                batch.set(db.collection(FIREBASE_COLLECTIONS.PRODUCTS).doc(prod.id), updatedProd);
+              }
+            });
+
+            batch.commit().catch(err => console.error('Error sincronizando produccion en Firebase:', err));
+          } catch (err) {
+            console.error('Error Firestore produccion:', err);
+          }
+        }
+
         showToast('Orden de Produccion exitosa: ' + productSummary + '.');
         setModalState({ isOpen: false, type: null, data: null });
         setPrintDoc(newTransaction);
@@ -698,6 +1026,29 @@
 
         // Update transactions state (registers synchronously in Ventas y Facturas + Libro Diario / Kardex)
         setTransactions(prev => [newTransaction, ...prev]);
+
+        // Sincronizacion en tiempo real con Firebase Cloud
+        if (dbRef.current && firebaseStatus === 'connected') {
+          try {
+            const db = dbRef.current;
+            const batch = db.batch();
+            batch.set(db.collection(FIREBASE_COLLECTIONS.TRANSACTIONS).doc(newTransaction.id), newTransaction);
+            items.forEach(it => {
+              const prod = products.find(p => p.id === it.productId);
+              if (prod) {
+                const updatedProd = {
+                  ...prod,
+                  currentStock: Math.max(0, prod.currentStock - Number(it.quantity))
+                };
+                batch.set(db.collection(FIREBASE_COLLECTIONS.PRODUCTS).doc(prod.id), updatedProd);
+              }
+            });
+            batch.commit().catch(err => console.error('Error sincronizando venta en Firebase:', err));
+          } catch (err) {
+            console.error('Error Firestore venta:', err);
+          }
+        }
+
         showToast('Factura A ' + finalInvoiceNum + ' emitida y registrada a ' + client.name);
         setModalState({ isOpen: false, type: null, data: null });
         
@@ -852,6 +1203,36 @@
 
         // Update state and register in Libro Diario + Notas
         setTransactions(prev => [newTransaction, ...prev]);
+
+        // Sincronizacion en tiempo real con Firebase Cloud
+        if (dbRef.current && firebaseStatus === 'connected') {
+          try {
+            const db = dbRef.current;
+            const batch = db.batch();
+            batch.set(db.collection(FIREBASE_COLLECTIONS.TRANSACTIONS).doc(newTransaction.id), newTransaction);
+
+            if (returnStock) {
+              items.forEach(it => {
+                if (it.productId) {
+                  const prod = products.find(p => p.id === it.productId);
+                  if (prod) {
+                    const qty = Number(it.quantity) || 0;
+                    const newStock = noteType === 'NOTA_CREDITO'
+                      ? prod.currentStock + qty
+                      : Math.max(0, prod.currentStock - qty);
+                    const updatedProd = { ...prod, currentStock: newStock };
+                    batch.set(db.collection(FIREBASE_COLLECTIONS.PRODUCTS).doc(prod.id), updatedProd);
+                  }
+                }
+              });
+            }
+
+            batch.commit().catch(err => console.error('Error sincronizando nota C/D en Firebase:', err));
+          } catch (err) {
+            console.error('Error Firestore nota C/D:', err);
+          }
+        }
+
         showToast(`${voucherTitle} ${finalNoteNumber} emitida y registrada a ${client.name}`);
         setModalState({ isOpen: false, type: null, data: null });
         setPrintDoc(newTransaction);
@@ -860,7 +1241,9 @@
       // CRUD RAW MATERIALS
       const handleSaveRawMaterial = (formData) => {
         if (modalState.type === 'editRawMaterial') {
+          const updatedRM = { ...formData };
           setRawMaterials(prev => prev.map(rm => rm.id === formData.id ? { ...rm, ...formData } : rm));
+          firestoreSet(FIREBASE_COLLECTIONS.RAW_MATERIALS, formData.id, updatedRM);
           showToast('Materia prima "' + formData.name + '" actualizada.');
         } else {
           const newId = 'MP-' + String(rawMaterials.length + 1).padStart(3, '0');
@@ -874,6 +1257,7 @@
             minStock: Number(formData.minStock) || 0
           };
           setRawMaterials(prev => [...prev, newRM]);
+          firestoreSet(FIREBASE_COLLECTIONS.RAW_MATERIALS, newId, newRM);
           showToast('Materia prima "' + formData.name + '" dada de alta.');
         }
         setModalState({ isOpen: false, type: null, data: null });
@@ -887,6 +1271,7 @@
         }
         if (confirm('Esta seguro de eliminar esta materia prima del catalogo?')) {
           setRawMaterials(prev => prev.filter(rm => rm.id !== id));
+          firestoreDelete(FIREBASE_COLLECTIONS.RAW_MATERIALS, id);
           showToast('Materia prima eliminada del catalogo.', 'info');
         }
       };
@@ -894,7 +1279,9 @@
       // CRUD PRODUCTS
       const handleSaveProduct = (formData) => {
         if (modalState.type === 'editProduct') {
+          const updatedProd = { ...formData };
           setProducts(prev => prev.map(p => p.id === formData.id ? { ...p, ...formData } : p));
+          firestoreSet(FIREBASE_COLLECTIONS.PRODUCTS, formData.id, updatedProd);
           showToast('Mercaderia "' + formData.name + '" actualizada.');
         } else {
           const newId = 'PT-' + String(products.length + 1).padStart(3, '0');
@@ -909,6 +1296,7 @@
             bom: formData.bom || []
           };
           setProducts(prev => [...prev, newProd]);
+          firestoreSet(FIREBASE_COLLECTIONS.PRODUCTS, newId, newProd);
           showToast('Mercaderia "' + formData.name + '" registrada con su check list BOM.');
         }
         setModalState({ isOpen: false, type: null, data: null });
@@ -917,6 +1305,7 @@
       const handleDeleteProduct = (id) => {
         if (confirm('Esta seguro de eliminar esta mercaderia del catalogo?')) {
           setProducts(prev => prev.filter(p => p.id !== id));
+          firestoreDelete(FIREBASE_COLLECTIONS.PRODUCTS, id);
           showToast('Mercaderia eliminada del catalogo.', 'info');
         }
       };
@@ -924,26 +1313,50 @@
       // CRUD SUPPLIERS & CLIENTS
       const handleSaveSupplier = (formData) => {
         if (modalState.type === 'editSupplier') {
+          const updatedSupp = { ...formData };
           setSuppliers(prev => prev.map(s => s.id === formData.id ? { ...s, ...formData } : s));
+          firestoreSet(FIREBASE_COLLECTIONS.SUPPLIERS, formData.id, updatedSupp);
           showToast('Proveedor "' + formData.name + '" actualizado.');
         } else {
           const newId = 'PROV-' + String(suppliers.length + 1).padStart(3, '0');
-          setSuppliers(prev => [...prev, { ...formData, id: newId }]);
+          const newSupp = { ...formData, id: newId };
+          setSuppliers(prev => [...prev, newSupp]);
+          firestoreSet(FIREBASE_COLLECTIONS.SUPPLIERS, newId, newSupp);
           showToast('Proveedor "' + formData.name + '" registrado.');
         }
         setModalState({ isOpen: false, type: null, data: null });
       };
 
+      const handleDeleteSupplier = (id) => {
+        if (confirm('Eliminar proveedor?')) {
+          setSuppliers(prev => prev.filter(s => s.id !== id));
+          firestoreDelete(FIREBASE_COLLECTIONS.SUPPLIERS, id);
+          showToast('Proveedor eliminado.');
+        }
+      };
+
       const handleSaveClient = (formData) => {
         if (modalState.type === 'editClient') {
+          const updatedClient = { ...formData };
           setClients(prev => prev.map(c => c.id === formData.id ? { ...c, ...formData } : c));
+          firestoreSet(FIREBASE_COLLECTIONS.CLIENTS, formData.id, updatedClient);
           showToast('Cliente "' + formData.name + '" actualizado.');
         } else {
           const newId = 'CLI-' + String(clients.length + 1).padStart(3, '0');
-          setClients(prev => [...prev, { ...formData, id: newId }]);
+          const newClient = { ...formData, id: newId };
+          setClients(prev => [...prev, newClient]);
+          firestoreSet(FIREBASE_COLLECTIONS.CLIENTS, newId, newClient);
           showToast('Cliente "' + formData.name + '" registrado.');
         }
         setModalState({ isOpen: false, type: null, data: null });
+      };
+
+      const handleDeleteClient = (id) => {
+        if (confirm('Eliminar cliente?')) {
+          setClients(prev => prev.filter(c => c.id !== id));
+          firestoreDelete(FIREBASE_COLLECTIONS.CLIENTS, id);
+          showToast('Cliente eliminado.');
+        }
       };
 
       // QUICK STOCK ADJUSTMENT
@@ -953,7 +1366,9 @@
           const rm = rawMaterials.find(r => r.id === id);
           if (!rm) return;
           const diff = qty - rm.currentStock;
-          setRawMaterials(prev => prev.map(r => r.id === id ? { ...r, currentStock: qty } : r));
+          const updatedRM = { ...rm, currentStock: qty };
+          setRawMaterials(prev => prev.map(r => r.id === id ? updatedRM : r));
+          firestoreSet(FIREBASE_COLLECTIONS.RAW_MATERIALS, rm.id, updatedRM);
           
           const newTransaction = {
             id: 'TRX-' + Date.now(),
@@ -966,12 +1381,15 @@
             notes: 'Ajuste inventario fisico MP: ' + (reason || 'Recuento manual')
           };
           setTransactions(prev => [newTransaction, ...prev]);
+          firestoreSet(FIREBASE_COLLECTIONS.TRANSACTIONS, newTransaction.id, newTransaction);
           showToast('Stock de "' + rm.name + '" ajustado a ' + qty + ' ' + rm.unit);
         } else {
           const prod = products.find(p => p.id === id);
           if (!prod) return;
           const diff = qty - prod.currentStock;
-          setProducts(prev => prev.map(p => p.id === id ? { ...p, currentStock: qty } : p));
+          const updatedProd = { ...prod, currentStock: qty };
+          setProducts(prev => prev.map(p => p.id === id ? updatedProd : p));
+          firestoreSet(FIREBASE_COLLECTIONS.PRODUCTS, prod.id, updatedProd);
           
           const newTransaction = {
             id: 'TRX-' + Date.now(),
@@ -984,6 +1402,7 @@
             notes: 'Ajuste inventario fisico Mercaderia: ' + (reason || 'Recuento manual')
           };
           setTransactions(prev => [newTransaction, ...prev]);
+          firestoreSet(FIREBASE_COLLECTIONS.TRANSACTIONS, newTransaction.id, newTransaction);
           showToast('Stock de "' + prod.name + '" ajustado a ' + qty + ' u.');
         }
         setModalState({ isOpen: false, type: null, data: null });
@@ -1132,7 +1551,7 @@
         showToast('Sistema bloqueado. Sesion cerrada con seguridad.', 'info');
       };
 
-      const handleClearAllData = () => {
+      const handleClearAllData = async () => {
         if (confirm('Esta seguro de vaciar todos los registros del sistema? Esta accion no se puede deshacer.')) {
           setSuppliers([]);
           setClients([]);
@@ -1144,6 +1563,29 @@
           localStorage.removeItem('ff_sas_raw_materials');
           localStorage.removeItem('ff_sas_products');
           localStorage.removeItem('ff_sas_transactions');
+
+          if (dbRef.current && firebaseStatus === 'connected') {
+            try {
+              const db = dbRef.current;
+              for (const col of Object.values(FIREBASE_COLLECTIONS)) {
+                const snapshot = await db.collection(col).get();
+                let batch = db.batch();
+                let count = 0;
+                for (const doc of snapshot.docs) {
+                  batch.delete(doc.ref);
+                  count++;
+                  if (count % 400 === 0) {
+                    await batch.commit();
+                    batch = db.batch();
+                  }
+                }
+                if (count > 0) await batch.commit();
+              }
+            } catch (e) {
+              console.error('Error vaciando Firebase:', e);
+            }
+          }
+
           showToast('Base de datos vaciada. El sistema esta en blanco.', 'info');
         }
       };
@@ -1271,6 +1713,37 @@
                     title="Exportar Todo a Excel (.XLSX)"
                   >
                     <i className="fas fa-file-excel text-lg text-emerald-400"></i>
+                  </button>
+
+                  <button
+                    onClick={() => setModalState({ isOpen: true, type: 'firebaseConfig', data: null })}
+                    data-action="firebase-cloud-config"
+                    className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition border ${
+                      firebaseStatus === 'connected'
+                        ? 'bg-emerald-800/90 hover:bg-emerald-700 text-emerald-200 border-emerald-600/70 shadow-sm'
+                        : firebaseStatus === 'connecting'
+                        ? 'bg-amber-900/80 hover:bg-amber-800 text-amber-200 border-amber-600 animate-pulse'
+                        : firebaseStatus === 'error'
+                        ? 'bg-rose-900/80 hover:bg-rose-800 text-rose-200 border-rose-600'
+                        : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'
+                    }`}
+                    title={
+                      firebaseStatus === 'connected' ? 'Base de datos Firebase Nube conectada y sincronizada en tiempo real' :
+                      firebaseStatus === 'connecting' ? 'Conectando con base de datos Firebase...' :
+                      firebaseStatus === 'error' ? 'Error al conectar con Firebase Nube' : 'Configurar conexion con Firebase Nube'
+                    }
+                  >
+                    <span className={`w-2 h-2 rounded-full ${
+                      firebaseStatus === 'connected' ? 'bg-emerald-400 shadow-[0_0_8px_#34d399]' :
+                      firebaseStatus === 'connecting' ? 'bg-amber-400' :
+                      firebaseStatus === 'error' ? 'bg-rose-400' : 'bg-slate-400'
+                    }`}></span>
+                    <i className="fas fa-cloud text-xs"></i>
+                    <span>
+                      {firebaseStatus === 'connected' ? 'Cloud Activo' :
+                       firebaseStatus === 'connecting' ? 'Conectando...' :
+                       firebaseStatus === 'error' ? 'Error Nube' : 'Conectar Nube'}
+                    </span>
                   </button>
 
                   <button
@@ -1532,18 +2005,8 @@
                 suppliers={suppliers}
                 clients={clients}
                 onOpenModal={(type, data) => setModalState({ isOpen: true, type, data })}
-                onDeleteSupplier={(id) => {
-                  if (confirm('Eliminar proveedor?')) {
-                    setSuppliers(prev => prev.filter(s => s.id !== id));
-                    showToast('Proveedor eliminado.');
-                  }
-                }}
-                onDeleteClient={(id) => {
-                  if (confirm('Eliminar cliente?')) {
-                    setClients(prev => prev.filter(c => c.id !== id));
-                    showToast('Cliente eliminado.');
-                  }
-                }}
+                onDeleteSupplier={handleDeleteSupplier}
+                onDeleteClient={handleDeleteClient}
               />
             )}
 
@@ -1678,6 +2141,19 @@
                   <BackupRestoreModal 
                     onExportJSON={handleExportJSON}
                     onImportJSON={handleImportJSON}
+                    onClose={() => setModalState({ isOpen: false, type: null, data: null })}
+                  />
+                )}
+
+                {modalState.type === 'firebaseConfig' && (
+                  <FirebaseConfigModal 
+                    firebaseConfig={firebaseConfig}
+                    firebaseStatus={firebaseStatus}
+                    firebaseError={firebaseError}
+                    isSyncingCloud={isSyncingCloud}
+                    totalLocalItems={suppliers.length + clients.length + rawMaterials.length + products.length + transactions.length}
+                    onSaveConfig={handleSaveFirebaseConfig}
+                    onUploadLocalData={handleUploadLocalToFirebase}
                     onClose={() => setModalState({ isOpen: false, type: null, data: null })}
                   />
                 )}
@@ -5563,6 +6039,286 @@
           </div>
 
           <div className="mt-6 pt-4 border-t border-slate-200 flex justify-end">
+            <button
+              onClick={onClose}
+              className="px-5 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // 9.1 FIREBASE CONFIG & CLOUD SYNC MODAL
+    function FirebaseConfigModal({
+      firebaseConfig,
+      firebaseStatus,
+      firebaseError,
+      isSyncingCloud,
+      totalLocalItems,
+      onSaveConfig,
+      onUploadLocalData,
+      onClose
+    }) {
+      const [rawText, setRawText] = useState(() => {
+        if (firebaseConfig) {
+          return JSON.stringify(firebaseConfig, null, 2);
+        }
+        return '';
+      });
+      const [showGuide, setShowGuide] = useState(!firebaseConfig);
+      const [copyStatus, setCopyStatus] = useState(false);
+
+      const handleSave = (e) => {
+        e.preventDefault();
+        const trimmed = rawText.trim();
+        if (!trimmed) {
+          onSaveConfig(null);
+          return;
+        }
+
+        // Try direct JSON
+        let parsed = null;
+        try {
+          parsed = JSON.parse(trimmed);
+        } catch (err) {
+          // Robust regex extraction
+          const extractField = (name) => {
+            const rx = new RegExp(`['"]?${name}['"]?\\s*[:=]\\s*['"]([^'"]+)['"]`, 'i');
+            const match = trimmed.match(rx);
+            return match ? match[1].trim() : '';
+          };
+          const apiKey = extractField('apiKey');
+          const projectId = extractField('projectId');
+          if (apiKey && projectId) {
+            parsed = {
+              apiKey,
+              authDomain: extractField('authDomain') || `${projectId}.firebaseapp.com`,
+              projectId,
+              storageBucket: extractField('storageBucket') || `${projectId}.appspot.com`,
+              messagingSenderId: extractField('messagingSenderId') || '',
+              appId: extractField('appId') || ''
+            };
+          }
+        }
+
+        if (!parsed || !parsed.apiKey || !parsed.projectId) {
+          alert('No se pudo identificar una configuracion valida. Asegurese de incluir al menos apiKey y projectId.');
+          return;
+        }
+
+        onSaveConfig(parsed);
+      };
+
+      const handleDisconnect = () => {
+        if (confirm('Desea desconectar Firebase y volver al modo de almacenamiento local?')) {
+          setRawText('');
+          onSaveConfig(null);
+        }
+      };
+
+      const handleCopyRules = () => {
+        const rulesText = `rules_version = '2';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n    match /{document=**} {\n      allow read, write: if true;\n    }\n  }\n}`;
+        navigator.clipboard.writeText(rulesText).then(() => {
+          setCopyStatus(true);
+          setTimeout(() => setCopyStatus(false), 3000);
+        });
+      };
+
+      return (
+        <div className="p-6">
+          <div className="flex justify-between items-center pb-4 border-b border-slate-200">
+            <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <i className="fas fa-cloud text-emerald-600"></i>
+              <span>Sincronizacion en la Nube con Google Firebase</span>
+            </h3>
+            <button onClick={onClose} className="text-slate-400 hover:text-slate-600 p-1">
+              <i className="fas fa-times text-lg"></i>
+            </button>
+          </div>
+
+          <div className="mt-5 space-y-5 text-xs">
+
+            {/* STATUS BANNER */}
+            <div className={`p-4 rounded-2xl border flex items-center justify-between ${
+              firebaseStatus === 'connected' ? 'bg-emerald-50 border-emerald-200' :
+              firebaseStatus === 'connecting' ? 'bg-amber-50 border-amber-200' :
+              firebaseStatus === 'error' ? 'bg-rose-50 border-rose-200' : 'bg-slate-100 border-slate-200'
+            }`}>
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg ${
+                  firebaseStatus === 'connected' ? 'bg-emerald-600 text-white shadow-md' :
+                  firebaseStatus === 'connecting' ? 'bg-amber-500 text-white animate-spin' :
+                  firebaseStatus === 'error' ? 'bg-rose-600 text-white' : 'bg-slate-300 text-slate-700'
+                }`}>
+                  <i className={`fas ${
+                    firebaseStatus === 'connected' ? 'fa-check-double' :
+                    firebaseStatus === 'connecting' ? 'fa-spinner' :
+                    firebaseStatus === 'error' ? 'fa-triangle-exclamation' : 'fa-laptop'
+                  }`}></i>
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-sm text-slate-900">
+                      {firebaseStatus === 'connected' ? 'Nube Conectada y Activa' :
+                       firebaseStatus === 'connecting' ? 'Conectando con Servidores Firebase...' :
+                       firebaseStatus === 'error' ? 'Error al Conectar con la Nube' : 'Modo Almacenamiento Local'}
+                    </span>
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                      firebaseStatus === 'connected' ? 'bg-emerald-100 text-emerald-800' :
+                      firebaseStatus === 'connecting' ? 'bg-amber-100 text-amber-800' :
+                      firebaseStatus === 'error' ? 'bg-rose-100 text-rose-800' : 'bg-slate-200 text-slate-700'
+                    }`}>
+                      {firebaseStatus === 'connected' ? 'En Vivo' :
+                       firebaseStatus === 'connecting' ? 'En Proceso' :
+                       firebaseStatus === 'error' ? 'Fallo' : 'Offline'}
+                    </span>
+                  </div>
+                  <p className="text-slate-600 text-xs mt-0.5">
+                    {firebaseStatus === 'connected' 
+                      ? `Proyecto: ${firebaseConfig?.projectId || 'Firebase'} • Cualquier modificacion en este u otro equipo se actualiza inmediatamente en todos.`
+                      : firebaseStatus === 'connecting'
+                      ? 'Iniciando conexion en tiempo real con Google Cloud Firestore...'
+                      : firebaseStatus === 'error'
+                      ? (firebaseError || 'No se pudo conectar a la base de datos de Firebase. Verifique su configuracion y las reglas de Firestore.')
+                      : 'Los datos solo se guardan en la memoria local de esta computadora. Ingrese sus credenciales de Firebase para compartir la base de datos con su equipo.'}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* ONE-CLICK INITIAL MIGRATION TO CLOUD */}
+            {firebaseStatus === 'connected' && (
+              <div className="p-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl border border-emerald-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div>
+                  <h4 className="font-bold text-emerald-950 text-sm flex items-center gap-2">
+                    <i className="fas fa-cloud-arrow-up text-emerald-600"></i>
+                    <span>Subir Todos los Datos Locales a la Nube (Migracion Inicial)</span>
+                  </h4>
+                  <p className="text-emerald-800 text-xs mt-0.5">
+                    Transfiere las materias primas, mercaderias, proveedores, clientes, compras, producciones y facturas locales hacia Firebase para que todos los usuarios las vean de inmediato.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  disabled={isSyncingCloud}
+                  onClick={onUploadLocalData}
+                  className="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl shadow-md transition flex items-center gap-2 whitespace-nowrap disabled:opacity-50"
+                >
+                  {isSyncingCloud ? (
+                    <>
+                      <i className="fas fa-spinner fa-spin"></i>
+                      <span>Subiendo Datos...</span>
+                    </>
+                  ) : (
+                    <>
+                      <i className="fas fa-upload"></i>
+                      <span>Subir a Firebase</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
+
+            {/* CONFIGURATION FORM */}
+            <form onSubmit={handleSave} className="space-y-3">
+              <div>
+                <div className="flex justify-between items-center mb-1">
+                  <label className="font-bold text-slate-700">
+                    Credenciales del Proyecto Firebase (firebaseConfig)
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowGuide(!showGuide)}
+                    className="text-emerald-700 hover:text-emerald-800 font-semibold underline text-[11px]"
+                  >
+                    {showGuide ? 'Ocultar Guia Paso a Paso' : 'Como obtener estas credenciales gratis'}
+                  </button>
+                </div>
+                <p className="text-slate-500 text-[11px] mb-2 leading-relaxed">
+                  Pegue el bloque de codigo proporcionado por la consola de Firebase al registrar su aplicacion Web (acepta formato JSON o bloque const firebaseConfig = &#123; ... &#125;).
+                </p>
+                <textarea
+                  rows="7"
+                  value={rawText}
+                  onChange={(e) => setRawText(e.target.value)}
+                  placeholder={`{\n  "apiKey": "AIzaSy...",\n  "authDomain": "su-proyecto.firebaseapp.com",\n  "projectId": "su-proyecto",\n  "storageBucket": "su-proyecto.appspot.com",\n  "messagingSenderId": "123456789",\n  "appId": "1:123456:web:abcd"\n}`}
+                  className="w-full px-3 py-2.5 font-mono text-[11px] border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-slate-50"
+                />
+              </div>
+
+              {/* ACTION BUTTONS */}
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-2">
+                <div>
+                  {firebaseConfig && (
+                    <button
+                      type="button"
+                      onClick={handleDisconnect}
+                      className="px-3.5 py-2 border border-rose-300 text-rose-700 hover:bg-rose-50 rounded-xl font-semibold transition"
+                    >
+                      Desconectar y Volver a Modo Local
+                    </button>
+                  )}
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="px-4 py-2 border border-slate-300 text-slate-700 hover:bg-slate-100 rounded-xl font-semibold"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl shadow-md transition flex items-center gap-2"
+                  >
+                    <i className="fas fa-plug"></i>
+                    <span>Guardar y Conectar a la Nube</span>
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            {/* COLLAPSIBLE STEP-BY-STEP SETUP GUIDE */}
+            {showGuide && (
+              <div className="mt-4 p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                <h4 className="font-bold text-slate-900 text-xs flex items-center gap-2">
+                  <i className="fas fa-circle-info text-sky-600"></i>
+                  <span>Guia de Configuracion Rapida en Google Firebase (3 minutos gratis)</span>
+                </h4>
+                <ol className="list-decimal list-inside space-y-1.5 text-[11px] text-slate-700 leading-relaxed">
+                  <li>
+                    Ingrese a <a href="https://console.firebase.google.com" target="_blank" rel="noreferrer" className="text-sky-600 underline font-semibold">console.firebase.google.com</a> con su cuenta de Google y haga clic en <strong>"Crear un proyecto"</strong> (ejemplo: <em>Future Food SAS</em>).
+                  </li>
+                  <li>
+                    En el menu de la izquierda vaya a <strong>Compilacion</strong> &rarr; <strong>Firestore Database</strong> &rarr; presione <strong>"Crear base de datos"</strong>. Seleccione una ubicacion cercana (ej: southamerica-east1) y elija <strong>"Iniciar en modo de prueba"</strong>.
+                  </li>
+                  <li>
+                    En la pestaña <strong>Reglas</strong> de Firestore, verifique que la lectura y escritura esten habilitadas, o presione el boton a continuacion para copiar las reglas recomendadas:
+                    <div className="mt-1">
+                      <button
+                        type="button"
+                        onClick={handleCopyRules}
+                        className="px-3 py-1 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg font-mono text-[10px] transition"
+                      >
+                        {copyStatus ? '✓ Reglas Copiadas al Portapapeles' : 'Copiar Reglas Firestore Rapidas'}
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    Haga clic en el icono del engranaje en la parte superior izquierda (<strong>Configuracion del proyecto</strong>), baje a la seccion <strong>"Tus apps"</strong> y haga clic en el icono <strong>Web (&lt;/&gt;)</strong>.
+                  </li>
+                  <li>
+                    Copie el bloque que contiene <code>const firebaseConfig = &#123; ... &#125;</code>, peguelo en el recuadro superior y haga clic en <strong>"Guardar y Conectar a la Nube"</strong>.
+                  </li>
+                </ol>
+              </div>
+            )}
+
+          </div>
+
+          <div className="mt-5 pt-3 border-t border-slate-200 flex justify-end">
             <button
               onClick={onClose}
               className="px-5 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold"

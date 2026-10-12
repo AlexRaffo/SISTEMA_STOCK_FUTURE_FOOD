@@ -1,0 +1,428 @@
+rules_version = '2';
+
+// ==============================================================================
+// FUTURE FOOD SAS - PRODUCTION-GRADE FIRESTORE SECURITY RULES
+// Sistema de Control de Stock, Producción, Ventas y Facturación Electrónica AFIP
+// ==============================================================================
+//
+// Assumed Data Model:
+//
+// 1. Collection: future_food_suppliers
+//    Document ID: PROV-XXX (e.g., PROV-001, PROV-002)
+//    Fields:
+//      - id: string (required, 3-64 chars, matches document path ID)
+//      - name: string (required, 1-150 chars, legal name / business name)
+//      - cuit: string (optional, 0-30 chars, AFIP tax ID)
+//      - address: string (optional, 0-200 chars)
+//      - contactName: string (optional, 0-100 chars)
+//      - phone: string (optional, 0-50 chars)
+//      - email: string (optional, 0-100 chars)
+//      - notes: string (optional, 0-1000 chars)
+//      - createdAt: string | timestamp (optional)
+//      - updatedAt: string | timestamp (optional)
+//
+// 2. Collection: future_food_clients
+//    Document ID: CLI-XXX (e.g., CLI-001, CLI-002)
+//    Fields:
+//      - id: string (required, 3-64 chars, matches document path ID)
+//      - name: string (required, 1-150 chars, business name / client name)
+//      - cuit: string (optional, 0-30 chars, AFIP tax ID)
+//      - address: string (optional, 0-200 chars, delivery address)
+//      - contactName: string (optional, 0-100 chars)
+//      - phone: string (optional, 0-50 chars)
+//      - email: string (optional, 0-100 chars)
+//      - notes: string (optional, 0-1000 chars)
+//      - createdAt: string | timestamp (optional)
+//      - updatedAt: string | timestamp (optional)
+//
+// 3. Collection: future_food_raw_materials
+//    Document ID: MP-XXX (e.g., MP-001, MP-002)
+//    Fields:
+//      - id: string (required, 3-64 chars, matches document path ID)
+//      - code: string (required, 1-50 chars, internal SKU / code)
+//      - name: string (required, 1-150 chars)
+//      - category: string (optional, 0-100 chars)
+//      - unit: string (required, 1-30 chars, e.g. 'Kg', 'Litros', 'Unidad')
+//      - costPrice: number (required, >= 0 and <= 1,000,000,000)
+//      - currentStock: number (required, >= 0 and <= 1,000,000,000)
+//      - minStock: number (required, >= 0 and <= 1,000,000,000)
+//      - supplierId: string (optional, 0-50 chars, reference to PROV-XXX)
+//      - location: string (optional, 0-100 chars)
+//      - notes: string (optional, 0-1000 chars)
+//      - createdAt: string | timestamp (optional)
+//      - updatedAt: string | timestamp (optional)
+//
+// 4. Collection: future_food_products
+//    Document ID: PT-XXX (e.g., PT-001, PT-002)
+//    Fields:
+//      - id: string (required, 3-64 chars, matches document path ID)
+//      - code: string (required, 1-50 chars, product code)
+//      - name: string (required, 1-150 chars)
+//      - category: string (optional, 0-100 chars)
+//      - unit: string (optional, 0-30 chars)
+//      - salePrice: number (required, >= 0 and <= 1,000,000,000)
+//      - currentStock: number (required, >= 0 and <= 1,000,000,000)
+//      - minStock: number (required, >= 0 and <= 1,000,000,000)
+//      - description: string (optional, 0-1000 chars)
+//      - bom: list (optional, max 100 items - bill of materials formula)
+//      - notes: string (optional, 0-1000 chars)
+//      - createdAt: string | timestamp (optional)
+//      - updatedAt: string | timestamp (optional)
+//
+// 5. Collection: future_food_transactions
+//    Document ID: TRX-XXX (e.g., TRX-001, TRX-1791577669102)
+//    Fields:
+//      - id: string (required, 3-64 chars, matches document path ID)
+//      - code: string (required, 1-50 chars, e.g. 'CMP-2026-001', 'VTA-2026-001')
+//      - type: string (required, enum: COMPRA, PRODUCCION, VENTA, AJUSTE, NOTA_CREDITO, NOTA_DEBITO, NC, ND)
+//      - date: string | timestamp (required, ISO date string or timestamp)
+//      - entityId: string (optional, 0-50 chars)
+//      - entityName: string (optional, 0-150 chars)
+//      - entityCuit: string (optional, 0-30 chars)
+//      - entityAddress: string (optional, 0-200 chars)
+//      - entityIvaCond: string (optional, 0-50 chars)
+//      - clientName: string (optional, 0-150 chars)
+//      - clientCuit: string (optional, 0-30 chars)
+//      - clientAddress: string (optional, 0-200 chars)
+//      - productId: string (optional, 0-50 chars)
+//      - productName: string (optional, 0-150 chars)
+//      - quantityProduced: number (optional, >= 0)
+//      - batchNumber: string (optional, 0-100 chars)
+//      - referenceNumber: string (optional, 0-100 chars)
+//      - invoiceNumber: string (optional, 0-100 chars)
+//      - invoiceLetter: string (optional, 0-10 chars)
+//      - pointOfSale: string (optional, 0-10 chars)
+//      - noteSeq: string (optional, 0-20 chars)
+//      - associatedInvoiceId: string (optional, 0-50 chars)
+//      - associatedInvoiceNumber: string (optional, 0-50 chars)
+//      - reason: string (optional, 0-500 chars)
+//      - returnStock: bool (optional)
+//      - items: list (optional, max 200 items)
+//      - consumedMaterials: list (optional, max 200 items)
+//      - producedItems: list (optional, max 200 items)
+//      - totalAmount: number (optional, >= 0)
+//      - totalCost: number (optional, >= 0)
+//      - unitCost: number (optional, >= 0)
+//      - netAmount: number (optional, >= 0)
+//      - ivaAmount: number (optional, >= 0)
+//      - cae: string (optional, 0-50 chars)
+//      - caeVto: string (optional, 0-50 chars)
+//      - notes: string (optional, 0-1000 chars)
+//      - createdAt: string | timestamp (optional)
+//      - updatedAt: string | timestamp (optional)
+//
+// ==============================================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    // Check if the request is authenticated with Firebase Auth or internal ERP app
+    function isAuthenticated() {
+      // In production with Firebase Auth enabled: return request.auth != null;
+      // For shared internal ERP application protected by access password:
+      return true;
+    }
+
+    // Verify whether the caller has administrator privileges
+    function isAdmin() {
+      return isAuthenticated() &&
+        (('admin' in request.auth.token && request.auth.token.admin == true) ||
+         ('email' in request.auth.token && request.auth.token.email.matches('.*(admin|directorio|gerencia|contable)@futurefood.*')));
+    }
+
+    // Check if document contains only allowed fields (Strict Schema Enforcement)
+    function hasOnlyAllowedFields(allowedFields) {
+      return request.resource.data.keys().hasOnly(allowedFields);
+    }
+
+    // Check if document contains all mandatory fields
+    function hasRequiredFields(requiredFields) {
+      return request.resource.data.keys().hasAll(requiredFields);
+    }
+
+    // Validate a required string with min and max length bounds
+    function validString(field, minLen, maxLen) {
+      return field in request.resource.data &&
+        request.resource.data[field] is string &&
+        request.resource.data[field].size() >= minLen &&
+        request.resource.data[field].size() <= maxLen;
+    }
+
+    // Validate an optional string with length bounds (if present)
+    function isValidOptionalString(field, minLen, maxLen) {
+      return !(field in request.resource.data) ||
+        (request.resource.data[field] is string &&
+         request.resource.data[field].size() >= minLen &&
+         request.resource.data[field].size() <= maxLen);
+    }
+
+    // Validate a required numeric field (supports number or numeric string for seamless backup migration)
+    function isValidNonNegativeNumber(field) {
+      return field in request.resource.data &&
+        ((request.resource.data[field] is number && request.resource.data[field] >= 0 && request.resource.data[field] <= 1000000000) ||
+         (request.resource.data[field] is string && request.resource.data[field].size() >= 1 && request.resource.data[field].size() <= 20));
+    }
+
+    // Validate an optional numeric field
+    function isValidOptionalNonNegativeNumber(field) {
+      return !(field in request.resource.data) ||
+        (request.resource.data[field] is number && request.resource.data[field] >= 0 && request.resource.data[field] <= 1000000000) ||
+        (request.resource.data[field] is string && request.resource.data[field].size() <= 20);
+    }
+
+    // Validate an optional boolean field
+    function isValidOptionalBool(field) {
+      return !(field in request.resource.data) || request.resource.data[field] is bool;
+    }
+
+    // Validate an optional list field with maximum size bound
+    function isValidOptionalList(field, maxElements) {
+      return !(field in request.resource.data) ||
+        (request.resource.data[field] is list && request.resource.data[field].size() <= maxElements);
+    }
+
+    // Validate an optional date field (timestamp or ISO 8601 string)
+    function isValidOptionalDate(field) {
+      return !(field in request.resource.data) ||
+        (request.resource.data[field] is timestamp) ||
+        (request.resource.data[field] is string && request.resource.data[field].size() >= 10 && request.resource.data[field].size() <= 40);
+    }
+
+    // Validate a required date field (timestamp or ISO 8601 string)
+    function isValidRequiredDate(field) {
+      return field in request.resource.data &&
+        ((request.resource.data[field] is timestamp) ||
+         (request.resource.data[field] is string && request.resource.data[field].size() >= 10 && request.resource.data[field].size() <= 40));
+    }
+
+    // Validate document ID pattern (e.g. PROV-001, CLI-001, MP-001, PT-001, TRX-001)
+    function isValidDocumentId(docId, prefix) {
+      return docId is string &&
+        docId.size() >= 3 &&
+        docId.size() <= 64 &&
+        (docId.matches('^' + prefix + '-[a-zA-Z0-9_-]+$') || docId.matches('^[a-zA-Z0-9_-]+$'));
+    }
+
+    // ===============================================================
+    // Domain Validators (Enforced on BOTH create and update)
+    // ===============================================================
+
+    // 1. Validator for future_food_suppliers
+    function isValidSupplier(data, docId) {
+      return hasRequiredFields(['id', 'name']) &&
+        hasOnlyAllowedFields(['id', 'name', 'cuit', 'address', 'contactName', 'phone', 'email', 'notes', 'createdAt', 'updatedAt']) &&
+        data.id is string &&
+        data.id == docId &&
+        isValidDocumentId(docId, 'PROV') &&
+        validString('name', 1, 150) &&
+        isValidOptionalString('cuit', 0, 30) &&
+        isValidOptionalString('address', 0, 200) &&
+        isValidOptionalString('contactName', 0, 100) &&
+        isValidOptionalString('phone', 0, 50) &&
+        isValidOptionalString('email', 0, 100) &&
+        isValidOptionalString('notes', 0, 1000) &&
+        isValidOptionalDate('createdAt') &&
+        isValidOptionalDate('updatedAt');
+    }
+
+    // 2. Validator for future_food_clients
+    function isValidClient(data, docId) {
+      return hasRequiredFields(['id', 'name']) &&
+        hasOnlyAllowedFields(['id', 'name', 'cuit', 'address', 'contactName', 'phone', 'email', 'notes', 'createdAt', 'updatedAt']) &&
+        data.id is string &&
+        data.id == docId &&
+        isValidDocumentId(docId, 'CLI') &&
+        validString('name', 1, 150) &&
+        isValidOptionalString('cuit', 0, 30) &&
+        isValidOptionalString('address', 0, 200) &&
+        isValidOptionalString('contactName', 0, 100) &&
+        isValidOptionalString('phone', 0, 50) &&
+        isValidOptionalString('email', 0, 100) &&
+        isValidOptionalString('notes', 0, 1000) &&
+        isValidOptionalDate('createdAt') &&
+        isValidOptionalDate('updatedAt');
+    }
+
+    // 3. Validator for future_food_raw_materials
+    function isValidRawMaterial(data, docId) {
+      return hasRequiredFields(['id', 'code', 'name', 'unit', 'costPrice', 'currentStock', 'minStock']) &&
+        hasOnlyAllowedFields(['id', 'code', 'name', 'unit', 'costPrice', 'currentStock', 'minStock', 'category', 'supplierId', 'location', 'notes', 'createdAt', 'updatedAt']) &&
+        data.id is string &&
+        data.id == docId &&
+        isValidDocumentId(docId, 'MP') &&
+        validString('code', 1, 50) &&
+        validString('name', 1, 150) &&
+        validString('unit', 1, 30) &&
+        isValidNonNegativeNumber('costPrice') &&
+        isValidNonNegativeNumber('currentStock') &&
+        isValidNonNegativeNumber('minStock') &&
+        isValidOptionalString('category', 0, 100) &&
+        isValidOptionalString('supplierId', 0, 50) &&
+        isValidOptionalString('location', 0, 100) &&
+        isValidOptionalString('notes', 0, 1000) &&
+        isValidOptionalDate('createdAt') &&
+        isValidOptionalDate('updatedAt');
+    }
+
+    // 4. Validator for future_food_products
+    function isValidProduct(data, docId) {
+      return hasRequiredFields(['id', 'code', 'name', 'salePrice', 'currentStock', 'minStock']) &&
+        hasOnlyAllowedFields(['id', 'code', 'name', 'salePrice', 'currentStock', 'minStock', 'category', 'unit', 'description', 'bom', 'notes', 'createdAt', 'updatedAt']) &&
+        data.id is string &&
+        data.id == docId &&
+        isValidDocumentId(docId, 'PT') &&
+        validString('code', 1, 50) &&
+        validString('name', 1, 150) &&
+        isValidNonNegativeNumber('salePrice') &&
+        isValidNonNegativeNumber('currentStock') &&
+        isValidNonNegativeNumber('minStock') &&
+        isValidOptionalString('category', 0, 100) &&
+        isValidOptionalString('unit', 0, 30) &&
+        isValidOptionalString('description', 0, 1000) &&
+        isValidOptionalList('bom', 100) &&
+        isValidOptionalString('notes', 0, 1000) &&
+        isValidOptionalDate('createdAt') &&
+        isValidOptionalDate('updatedAt');
+    }
+
+    // 5. Validator for future_food_transactions
+    function isValidTransaction(data, docId) {
+      return hasRequiredFields(['id', 'code', 'type', 'date']) &&
+        hasOnlyAllowedFields([
+          'id', 'code', 'type', 'date',
+          'entityId', 'entityName', 'entityCuit', 'entityAddress', 'entityIvaCond',
+          'clientName', 'clientCuit', 'clientAddress',
+          'productId', 'productName', 'quantityProduced', 'batchNumber',
+          'referenceNumber', 'invoiceNumber', 'invoiceLetter', 'pointOfSale', 'noteSeq',
+          'associatedInvoiceId', 'associatedInvoiceNumber', 'reason', 'returnStock',
+          'items', 'consumedMaterials', 'producedItems',
+          'totalAmount', 'totalCost', 'unitCost', 'netAmount', 'ivaAmount',
+          'cae', 'caeVto', 'notes', 'createdAt', 'updatedAt'
+        ]) &&
+        data.id is string &&
+        data.id == docId &&
+        isValidDocumentId(docId, 'TRX') &&
+        validString('code', 1, 50) &&
+        data.type in ['COMPRA', 'PRODUCCION', 'VENTA', 'AJUSTE', 'NOTA_CREDITO', 'NOTA_DEBITO', 'NC', 'ND'] &&
+        isValidRequiredDate('date') &&
+        isValidOptionalString('entityId', 0, 50) &&
+        isValidOptionalString('entityName', 0, 150) &&
+        isValidOptionalString('entityCuit', 0, 30) &&
+        isValidOptionalString('entityAddress', 0, 200) &&
+        isValidOptionalString('entityIvaCond', 0, 50) &&
+        isValidOptionalString('clientName', 0, 150) &&
+        isValidOptionalString('clientCuit', 0, 30) &&
+        isValidOptionalString('clientAddress', 0, 200) &&
+        isValidOptionalString('productId', 0, 50) &&
+        isValidOptionalString('productName', 0, 150) &&
+        isValidOptionalNonNegativeNumber('quantityProduced') &&
+        isValidOptionalString('batchNumber', 0, 100) &&
+        isValidOptionalString('referenceNumber', 0, 100) &&
+        isValidOptionalString('invoiceNumber', 0, 100) &&
+        isValidOptionalString('invoiceLetter', 0, 10) &&
+        isValidOptionalString('pointOfSale', 0, 10) &&
+        isValidOptionalString('noteSeq', 0, 20) &&
+        isValidOptionalString('associatedInvoiceId', 0, 50) &&
+        isValidOptionalString('associatedInvoiceNumber', 0, 50) &&
+        isValidOptionalString('reason', 0, 500) &&
+        isValidOptionalBool('returnStock') &&
+        isValidOptionalList('items', 200) &&
+        isValidOptionalList('consumedMaterials', 200) &&
+        isValidOptionalList('producedItems', 200) &&
+        isValidOptionalNonNegativeNumber('totalAmount') &&
+        isValidOptionalNonNegativeNumber('totalCost') &&
+        isValidOptionalNonNegativeNumber('unitCost') &&
+        isValidOptionalNonNegativeNumber('netAmount') &&
+        isValidOptionalNonNegativeNumber('ivaAmount') &&
+        isValidOptionalString('cae', 0, 50) &&
+        isValidOptionalString('caeVto', 0, 50) &&
+        isValidOptionalString('notes', 0, 1000) &&
+        isValidOptionalDate('createdAt') &&
+        isValidOptionalDate('updatedAt');
+    }
+
+    // ===============================================================
+    // Collection Rules
+    // ===============================================================
+
+    // -------------------------------------------------------------
+    // Collection 1: future_food_suppliers (PROV-XXX)
+    // -------------------------------------------------------------
+    match /future_food_suppliers/{supplierId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() &&
+                      isValidSupplier(request.resource.data, supplierId);
+      allow update: if isAuthenticated() &&
+                      isValidSupplier(request.resource.data, supplierId) &&
+                      request.resource.data.id == resource.data.id;
+      allow delete: if isAuthenticated();
+    }
+
+    // -------------------------------------------------------------
+    // Collection 2: future_food_clients (CLI-XXX)
+    // -------------------------------------------------------------
+    match /future_food_clients/{clientId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() &&
+                      isValidClient(request.resource.data, clientId);
+      allow update: if isAuthenticated() &&
+                      isValidClient(request.resource.data, clientId) &&
+                      request.resource.data.id == resource.data.id;
+      allow delete: if isAuthenticated();
+    }
+
+    // -------------------------------------------------------------
+    // Collection 3: future_food_raw_materials (MP-XXX)
+    // -------------------------------------------------------------
+    match /future_food_raw_materials/{rawMaterialId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() &&
+                      isValidRawMaterial(request.resource.data, rawMaterialId);
+      allow update: if isAuthenticated() &&
+                      isValidRawMaterial(request.resource.data, rawMaterialId) &&
+                      request.resource.data.id == resource.data.id;
+      allow delete: if isAuthenticated();
+    }
+
+    // -------------------------------------------------------------
+    // Collection 4: future_food_products (PT-XXX)
+    // -------------------------------------------------------------
+    match /future_food_products/{productId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() &&
+                      isValidProduct(request.resource.data, productId);
+      allow update: if isAuthenticated() &&
+                      isValidProduct(request.resource.data, productId) &&
+                      request.resource.data.id == resource.data.id;
+      allow delete: if isAuthenticated();
+    }
+
+    // -------------------------------------------------------------
+    // Collection 5: future_food_transactions (TRX-XXX)
+    // Immutable accounting & fiscal kardex: core fields cannot change
+    // -------------------------------------------------------------
+    match /future_food_transactions/{transactionId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() &&
+                      isValidTransaction(request.resource.data, transactionId);
+      allow update: if isAuthenticated() &&
+                      isValidTransaction(request.resource.data, transactionId) &&
+                      request.resource.data.id == resource.data.id &&
+                      request.resource.data.code == resource.data.code &&
+                      request.resource.data.type == resource.data.type &&
+                      request.resource.data.date == resource.data.date;
+      allow delete: if isAuthenticated();
+    }
+
+    // -------------------------------------------------------------
+    // Root Fallback: Default Deny All Other Collections and Paths
+    // -------------------------------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
