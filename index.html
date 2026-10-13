@@ -248,12 +248,13 @@
     // FIREBASE REALTIME CLOUD CONFIGURATION
     // -----------------------------
     const DEFAULT_FIREBASE_CONFIG = {
-      apiKey: "",
-      authDomain: "",
-      projectId: "",
-      storageBucket: "",
-      messagingSenderId: "",
-      appId: ""
+      apiKey: "AIzaSyD8SF4G1L4OLa_LwxcnTEmwY8ucH2yoVvg",
+      authDomain: "futurefoodplataforma.firebaseapp.com",
+      projectId: "futurefoodplataforma",
+      storageBucket: "futurefoodplataforma.firebasestorage.app",
+      messagingSenderId: "177833658178",
+      appId: "1:177833658178:web:ca67e0c3cb91f71290eadb",
+      measurementId: "G-V21SQD27PJ"
     };
     const FIREBASE_CONFIG_STORAGE_KEY = 'ff_sas_firebase_config';
     const FIREBASE_COLLECTIONS = {
@@ -489,8 +490,8 @@
 
       // Full sync upload from local storage to Firestore (Migration)
       const handleUploadLocalToFirebase = async () => {
-        if (!dbRef.current || firebaseStatus !== 'connected') {
-          showToast('Firebase no esta conectado aun.', 'error');
+        if (!dbRef.current) {
+          showToast('Firebase no esta inicializado aun.', 'error');
           return;
         }
         setIsSyncingCloud(true);
@@ -531,6 +532,7 @@
           if (count % 400 !== 0 || count === 0) {
             await batch.commit();
           }
+          setFirebaseStatus('connected');
           setIsSyncingCloud(false);
           showToast('Todos los datos locales se han subido a la nube Firebase con exito.');
         } catch (err) {
@@ -6189,7 +6191,7 @@
             </div>
 
             {/* ONE-CLICK INITIAL MIGRATION TO CLOUD */}
-            {firebaseStatus === 'connected' && (
+            {(firebaseStatus === 'connected' || firebaseStatus === 'connecting') && (
               <div className="p-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl border border-emerald-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div>
                   <h4 className="font-bold text-emerald-950 text-sm flex items-center gap-2">
